@@ -207,6 +207,27 @@
             </section>
 
             <section>
+                <h3>Co tu jest źle?</h3>
+                <p class="fragment">Wszystko</p>
+            </section>
+
+            <section>
+                <h3>Pojedynczy pomiar</h3>
+            </section>
+
+            <section data-markdown>
+                <script type="text/template">
+                    ### Pomiar wielokrotny
+
+                    ```java
+                    public void benchmark(){
+
+                    }
+                    ```
+                </script>
+            </section>
+
+            <section>
                 <h3>Błąd pomiaru</h3>
                 <img src="images/odchylenie-std-sredniej-arytm.png" width="800" style="background-color: #ffffff">
             </section>
@@ -214,6 +235,190 @@
             <section>
                 <h3>Ta przeklęta matematyka</h3>
             </section>
+
+            <section>
+                <h3>Ale to załatwi nam narzędzie</h3>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>JMH</h2>
+            </section>
+
+            <section>
+                <h3>Co to jest?</h3>
+            </section>
+
+            <section>
+                <h3>Narzędzie do tworzenia benchmarków</h3>
+            </section>
+
+            <section data-markdown>
+                <script type="text/template">
+                    ### Prosty pomiar
+
+                    ```java
+                    @Benchmark
+                    public void benchmark(){
+
+                    }
+                    ```
+                </script>
+            </section>
+
+            <section>
+                <h3>Co możemy mierzyć?</h3>
+            </section>
+
+            <section>
+                <h5>Wydajność – ilość operacji na sekundę</h5>
+            </section>
+
+            <section>
+                <h5>Średni czas operacji – odwrotność powyższego</h5>
+            </section>
+
+            <section>
+                <h5>Sampling – czas wykonania losowych metod</h5>
+            </section>
+
+            <section>
+                <h5>SingleShot – jedno wywołanie</h5>
+                <p class="fragment">bez rozgrzewki</p>
+            </section>
+
+            <section>
+                <h3>Rozgrzewka</h3>
+                <p class="fragment">czyli walka z JIT</p>
+            </section>
+
+            <section>
+                <h3>Do czego służy benchmark?</h3>
+                <p class="fragment">Pozwala zrozumieć model wydajności</p>
+            </section>
+
+            <section>
+                <h3>JIT</h3>
+                <p class="fragment">Ma duży wpływ na pomiary</p>
+            </section>
+
+            <!-- usunięcie wywołania -->
+            <section data-markdown>
+                <script type="text/template">
+                    ### Optymalizacja 1
+
+                    ```java
+                    @Benchmark
+                    public void benchmark(){
+
+                    }
+                    ```
+                </script>
+            </section>
+
+            <!-- Wyliczenia w trakcie kompilacji -->
+            <section data-markdown>
+                <script type="text/template">
+                    ### Optymalizacja 2
+
+                    ```java
+                    @Benchmark
+                    public void benchmark(){
+
+                    }
+                    ```
+                </script>
+            </section>
+
+            <!-- Brak volatile -->
+            <section data-markdown>
+                <script type="text/template">
+                    ### Optymalizacja 3
+
+                    ```java
+                    @Benchmark
+                    public void benchmark(){
+
+                    }
+                    ```
+                </script>
+            </section>
+
+            <section>
+                <h3>To można „naprawić”</h3>
+            </section>
+
+            <!-- usunięcie wywołania -->
+            <section data-markdown>
+                <script type="text/template">
+                    ### Optymalizacja 1
+
+                    ```java
+                    @Benchmark
+                    public void benchmark(){
+
+                    }
+                    ```
+                </script>
+            </section>
+
+            <!-- Wyliczenia w trakcie kompilacji -->
+            <section data-markdown>
+                <script type="text/template">
+                    ### Optymalizacja 2
+
+                    ```java
+                    @Benchmark
+                    public void benchmark(){
+
+                    }
+                    ```
+                </script>
+            </section>
+
+            <!-- Volatile -->
+            <section data-markdown>
+                <script type="text/template">
+                    ### Optymalizacja 3
+
+                    ```java
+                    @Benchmark
+                    public void benchmark(){
+
+                    }
+                    ```
+                </script>
+            </section>
+
+        </section>
+
+        <section>
+            <section>
+                <h2>Błędy</h2>
+            </section>
+
+            <section>
+                <h3>Efekt skupienia</h3>
+                <p class="fragment">Nie skupiaj się na jedym elemencie</p>
+            </section>
+
+            <section>
+                <h3>Efekt zaprzeczenia</h3>
+                <p class="fragment">Jeżeli teoria nie zgadza się z danymi</p>
+                <p class="fragment">tym gorzej dla danych</p>
+            </section>
+
+            <section>
+                <h3>Efekt aureoli</h3>
+                <p class="fragment">Bo piękne jest dobre</p>
+            </section>
+
+            <section>
+                <h3>Clickbite</h3>
+                <p class="fragment">Sposób prezentacji danych</p>
+            </section>
+
 
         </section>
     </div>
