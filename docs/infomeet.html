@@ -577,6 +577,30 @@
             <section>
                 <h2>Na zakończenie</h2>
             </section>
+
+            <section>
+                <h3>Pomyśl co chcesz zmierzyć</h3>
+            </section>
+
+            <section>
+                <h3>Sprawdź metryki i metodę pomiaru</h3>
+            </section>
+
+            <section>
+                <h3>Poddaj wyniki obróbce</h3>
+            </section>
+
+            <section>
+                <h3>Poproś o recenzję</h3>
+            </section>
+
+            <section>
+                <h3>Powtarzaj pomiary</h3>
+            </section>
+        </section>
+
+        <section>
+            <h2>Q&A</h2>
         </section>
     </div>
 </div>
@@ -595,9 +619,11 @@
             {src: 'plugin/markdown/markdown.js'},
             {src: 'plugin/notes/notes.js', async: true},
             {
-                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
-                hljs.initHighlightingOnLoad();
-            }
+                src: 'plugin/highlight/highlight.js',
+                async: true,
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
             }
         ]
     });
