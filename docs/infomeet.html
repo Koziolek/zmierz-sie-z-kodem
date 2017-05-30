@@ -195,6 +195,7 @@
 
             <section data-markdown>
                 <script type="text/template">
+                    ### Prosty benchmark
                     ```java
                     public long benchmark() {
                         long start = System.currentTimeMillis();
@@ -203,6 +204,12 @@
                         return end - start;
                     }
                     ```
+                    <!-- .element: class="fragment" -->
+                    Całkowity czas pomiaru 172ms
+                    <!-- .element: class="fragment" -->
+
+                    Średni czas jednego wywołania 172ms
+                    <!-- .element: class="fragment" -->
                 </script>
             </section>
 
@@ -221,9 +228,20 @@
 
                     ```java
                     public void benchmark(){
-
+                        long start = System.nanoTime();
+                        for (int i = 0; i < 1000; i++) {
+                            businessMethod();
+                        }
+                        long end = System.nanoTime();
+                        return (long) ((end - start));
                     }
                     ```
+                    <!-- .element: class="fragment" -->
+                    Całkowity czas pomiaru 10876ms
+                    <!-- .element: class="fragment" -->
+
+                    Średni czas jednego wywołania 10.876ms
+                    <!-- .element: class="fragment" -->
                 </script>
             </section>
 
@@ -234,6 +252,13 @@
 
             <section>
                 <h3>Ta przeklęta matematyka</h3>
+            </section>
+
+            <section>
+                <h3>Skąd ten 1000?</h3>
+                <p class="fragment">Maksymalny błąd względny %</p>
+                <p class="fragment">3%</p>
+                <p class="fragment">Przy rozkładzie normalnym</p>
             </section>
 
             <section>
@@ -260,10 +285,20 @@
 
                     ```java
                     @Benchmark
-                    public void benchmark(){
-
+                    @BenchmarkMode(Mode.AverageTime)
+                    public int benchmark() {
+                        return businessMethod();
                     }
                     ```
+                    <!-- .element: class="fragment" -->
+
+                    ```
+                    Result "pl.koziolekweb.zszsk.SimpleJmhBenchmark.benchmark":
+                        0,010 ±(99.9%) 0,001 s/op [Average]
+                        (min, avg, max) = (0,009, 0,010, 0,015), stdev = 0,001
+                        CI (99.9%): [0,010, 0,010] (assumes normal distribution)
+                    ```
+                    <!-- .element: class="fragment" -->
                 </script>
             </section>
 
@@ -311,9 +346,22 @@
                     ```java
                     @Benchmark
                     public void benchmark(){
-
+                        businessMethod()
+                    }
+                    private void businessMethod() {
+                        int sum = 0;
+                        for (int i = 0; i <10000; i++)
+                            sum +=i;
                     }
                     ```
+                    <!-- .element: class="fragment" -->
+
+                    ```
+                    Benchmark                    Mode  Cnt           Score          Error  Units
+                    Opt1JmhBenchmark.benchmark  thrpt  200  3378397686,481 ± 51148955,241  ops/s
+                    Opt1JmhBenchmark.empty      thrpt  200  3452352429,451 ± 10362276,841  ops/s
+                    ```
+                    <!-- .element: class="fragment" -->
                 </script>
             </section>
 
@@ -323,11 +371,23 @@
                     ### Optymalizacja 2
 
                     ```java
-                    @Benchmark
-                    public void benchmark(){
+                    private double businessMethod1() {
+                        return Math.log(42);
+                    }
 
+                    private double businessMethod2() {
+                        return Math.log(Val.val);
                     }
                     ```
+                    <!-- .element: class="fragment" -->
+
+                    ```
+                    Benchmark                     Mode  Cnt           Score          Error  Units
+                    Opt2JmhBenchmark.benchmark1  thrpt   25   354716130,906 ±  16836742,085  ops/s
+                    Opt2JmhBenchmark.benchmark2  thrpt   25    29564052,663 ±   2947238,750  ops/s
+                    Opt2JmhBenchmark.empty       thrpt   50  2983698918,883 ± 111732359,537  ops/s
+                    ```
+                    <!-- .element: class="fragment" -->
                 </script>
             </section>
 
@@ -337,11 +397,47 @@
                     ### Optymalizacja 3
 
                     ```java
-                    @Benchmark
-                    public void benchmark(){
+                    public class Opt3Benchmark {
+                        private static final Logger LOGGER = Logger.getLogger("Simple");
 
+                        private static int MY_INT = 0;
+
+                        public static void main(String[] args) {
+                            new ChangeListener().start();
+                            new ChangeMaker().start();
+                        }
+
+                        static class ChangeListener extends Thread {
+                            @Override
+                            public void run() {
+                                int local_value = MY_INT;
+                                while ( local_value < 5){
+                                    if( local_value!= MY_INT){
+                                        LOGGER.log(Level.INFO,"Got Change for MY_INT : {0}", MY_INT);
+                                        local_value= MY_INT;
+                                    }
+                                }
+                            }
+                        }
+
+                        static class ChangeMaker extends Thread{
+                            @Override
+                            public void run() {
+                                int local_value = MY_INT;
+                                while (MY_INT <5){
+                                    LOGGER.log(Level.INFO, "Incrementing MY_INT to {0}", local_value+1);
+                                    MY_INT = ++local_value;
+                                    try {
+                                        Thread.sleep(500);
+                                    } catch (InterruptedException e) { e.printStackTrace(); }
+                                }
+                            }
+                        }
                     }
                     ```
+                    <!-- .element: class="fragment" -->
+                    Pętla nieskończona
+                    <!-- .element: class="fragment" -->
                 </script>
             </section>
 
@@ -355,26 +451,31 @@
                     ### Optymalizacja 1
 
                     ```java
-                    @Benchmark
-                    public void benchmark(){
+                    public void benchmark(Blackhole bh) {
+                        bh.consume(businessMethod());
+                    }
 
+                    private int businessMethod() {
+                        int sum = 0;
+                        for (int i = 0; i < 10000; i++)
+                            sum += i;
+                        return sum;
                     }
                     ```
+                    <!-- .element: class="fragment" -->
+                    ```
+                    Benchmark                         Mode  Cnt           Score          Error  Units
+                    FixedOpt1JmhBenchmark.benchmark  thrpt   50      315030,549 ±     4453,124  ops/s
+                    FixedOpt1JmhBenchmark.empty      thrpt   50  3215555870,895 ± 80663697,644  ops/s
+                    ```
+                    <!-- .element: class="fragment" -->
                 </script>
             </section>
 
             <!-- Wyliczenia w trakcie kompilacji -->
-            <section data-markdown>
-                <script type="text/template">
-                    ### Optymalizacja 2
-
-                    ```java
-                    @Benchmark
-                    public void benchmark(){
-
-                    }
-                    ```
-                </script>
+            <section>
+                <h3>Optymalizacja 2</h3>
+                <p class="fragment">Rozumieć co robi javac</p>
             </section>
 
             <!-- Volatile -->
@@ -383,11 +484,48 @@
                     ### Optymalizacja 3
 
                     ```java
-                    @Benchmark
-                    public void benchmark(){
+                    public class Opt3Benchmark {
+                        private static final Logger LOGGER = Logger.getLogger("Simple");
+                        private static volatile int MY_INT = 0;
 
+                        public static void main(String[] args) {
+                            new ChangeListener().start();
+                            new ChangeMaker().start();
+                        }
+
+                        static class ChangeListener extends Thread {
+                            @Override
+                            public void run() {
+                                int local_value = MY_INT;
+                                while ( local_value < 5){
+                                    if( local_value!= MY_INT){
+                                        LOGGER.log(Level.INFO,"Got Change for MY_INT : {0}", MY_INT);
+                                        local_value= MY_INT;
+                                    }
+                                }
+                            }
+                        }
+
+                        static class ChangeMaker extends Thread{
+                            @Override
+                            public void run() {
+                                int local_value = MY_INT;
+                                while (MY_INT <5){
+                                    LOGGER.log(Level.INFO, "Incrementing MY_INT to {0}", local_value+1);
+                                    MY_INT = ++local_value;
+                                    try {
+                                        Thread.sleep(500);
+                                    } catch (InterruptedException e) { e.printStackTrace(); }
+                                }
+                            }
+                        }
                     }
                     ```
+                    <!-- .element: class="fragment" -->
+                    Dodać
+                    <!-- .element: class="fragment" -->
+                    `volatile`
+                    <!-- .element: class="fragment" -->
                 </script>
             </section>
 
@@ -415,11 +553,30 @@
             </section>
 
             <section>
-                <h3>Clickbite</h3>
-                <p class="fragment">Sposób prezentacji danych</p>
+                <h3>Sposób prezentacji danych</h3>
+                <img src="images/prezentacja-danych.jpg" class="fragment" />
             </section>
 
+            <section>
+                <h3>Cherry picking</h3>
+                <h5 class="fragment">Błąd przeżywalności</h5>
+            </section>
 
+            <section>
+                <img src="images/abraham-wald.jpg" width="400" />
+                <p class="fragment">Abraham Wald</p>
+            </section>
+
+            <section>
+                <img src="images/clickbite.PNG" />
+                <img src="images/table.PNG" class="fragment"/>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>Na zakończenie</h2>
+            </section>
         </section>
     </div>
 </div>

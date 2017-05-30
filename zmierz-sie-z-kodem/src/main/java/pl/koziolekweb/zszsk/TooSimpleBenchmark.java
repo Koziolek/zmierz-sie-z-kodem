@@ -13,7 +13,8 @@ public class TooSimpleBenchmark {
 	public static void main(String[] args) {
 		TooSimpleBenchmark tsb = new TooSimpleBenchmark();
 
-		System.out.println(tsb.benchmark());
+		long benchmark = tsb.benchmark();
+		System.out.printf("Całkowity czas pomiaru %sms%nŚredni czas jednego wywołania %sms%n", benchmark, benchmark);
 	}
 
 	public long benchmark() {

@@ -11,18 +11,19 @@ import java.util.stream.Collectors;
 public class BetterSimpleBenchmark {
 
 	public static void main(String[] args) {
-		BetterSimpleBenchmark tsb = new BetterSimpleBenchmark();
+		BetterSimpleBenchmark bsb = new BetterSimpleBenchmark();
 
-		System.out.println(tsb.benchmark());
+		long benchmark = (bsb.benchmark() / 1000000);
+		System.out.printf("Całkowity czas pomiaru %sms%nŚredni czas jednego wywołania %sms%n", benchmark, benchmark / 1000.);
 	}
 
 	public long benchmark() {
-		long start = System.currentTimeMillis();
-		for (int i =0 ; i < 100000; i ++) {
+		long start = System.nanoTime();
+		for (int i = 0; i < 1000; i++) {
 			businessMethod();
 		}
-		long end = System.currentTimeMillis();
-		return (end - start)/100000;
+		long end = System.nanoTime();
+		return (long) ((end - start));
 	}
 
 	private int businessMethod() {
