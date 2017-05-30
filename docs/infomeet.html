@@ -196,12 +196,14 @@
             <section data-markdown>
                 <script type="text/template">
                     ```java
-                    public void benchmark(){
-
+                    public long benchmark() {
+                        long start = System.currentTimeMillis();
+                        businessMethod();
+                        long end = System.currentTimeMillis();
+                        return end - start;
                     }
                     ```
                 </script>
-
             </section>
 
             <section>
