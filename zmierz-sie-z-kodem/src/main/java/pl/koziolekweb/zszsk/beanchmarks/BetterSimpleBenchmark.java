@@ -1,4 +1,4 @@
-package pl.koziolekweb.zszsk;
+package pl.koziolekweb.zszsk.beanchmarks;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,20 +8,22 @@ import java.util.stream.Collectors;
 /**
  * Created by BKuczynski on 2017-05-29.
  */
-public class TooSimpleBenchmark {
+public class BetterSimpleBenchmark {
 
 	public static void main(String[] args) {
-		TooSimpleBenchmark tsb = new TooSimpleBenchmark();
+		BetterSimpleBenchmark bsb = new BetterSimpleBenchmark();
 
-		long benchmark = tsb.benchmark();
-		System.out.printf("Całkowity czas pomiaru %sms%nŚredni czas jednego wywołania %sms%n", benchmark, benchmark);
+		long benchmark = (bsb.benchmark() / 1000000);
+		System.out.printf("Całkowity czas pomiaru %sms%nŚredni czas jednego wywołania %sms%n", benchmark, benchmark / 1000.);
 	}
 
 	public long benchmark() {
-		long start = System.currentTimeMillis();
-		businessMethod();
-		long end = System.currentTimeMillis();
-		return end - start;
+		long start = System.nanoTime();
+		for (int i = 0; i < 1000; i++) {
+			businessMethod();
+		}
+		long end = System.nanoTime();
+		return (long) ((end - start));
 	}
 
 	private int businessMethod() {

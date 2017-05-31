@@ -105,6 +105,12 @@
                         <format>html</format>
                         <format>xml</format>
                     </formats>
+                    <instrumentation>
+                        <ignores>
+                            <ignore>pl.koziolekweb.zszsk.beanchmarks.*</ignore>
+                            <ignore>pl.koziolekweb.zszsk.generated.*</ignore>
+                        </ignores>
+                    </instrumentation>
                 </configuration>
             </plugin>
             <plugin>

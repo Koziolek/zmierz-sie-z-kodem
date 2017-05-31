@@ -1,4 +1,4 @@
-package pl.koziolekweb.zszsk;
+package pl.koziolekweb.zszsk.beanchmarks;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
@@ -10,9 +10,6 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.util.concurrent.TimeUnit;
-
-import static pl.koziolekweb.zszsk.Params.LOOP;
-import static pl.koziolekweb.zszsk.Params.TIME;
 
 /**
  * Created by koziolek on 29.05.17.
@@ -28,18 +25,18 @@ public class FailSort {
 	}
 
 	@Benchmark
-	@Warmup(iterations = LOOP, time = TIME, timeUnit = TimeUnit.MILLISECONDS)
-	@Measurement(iterations = LOOP, time = TIME, timeUnit = TimeUnit.MILLISECONDS)
-	@Fork(LOOP)
+	@Warmup(iterations = Params.LOOP, time = Params.TIME, timeUnit = TimeUnit.MILLISECONDS)
+	@Measurement(iterations = Params.LOOP, time = Params.TIME, timeUnit = TimeUnit.MILLISECONDS)
+	@Fork(Params.LOOP)
 	public int qs() {
 		int[] ints = prepareData();
 		return new QuickSort().sort(ints);
 	}
 
 	@Benchmark
-	@Warmup(iterations = LOOP, time = TIME, timeUnit = TimeUnit.MILLISECONDS)
-	@Measurement(iterations = LOOP, time = TIME, timeUnit = TimeUnit.MILLISECONDS)
-	@Fork(LOOP)
+	@Warmup(iterations = Params.LOOP, time = Params.TIME, timeUnit = TimeUnit.MILLISECONDS)
+	@Measurement(iterations = Params.LOOP, time = Params.TIME, timeUnit = TimeUnit.MILLISECONDS)
+	@Fork(Params.LOOP)
 	public int bs() {
 		int[] ints = prepareData();
 		return new BubbleSort().sort(ints);

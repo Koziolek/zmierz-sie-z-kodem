@@ -1,4 +1,4 @@
-package pl.koziolekweb.zszsk;
+package pl.koziolekweb.zszsk.beanchmarks;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
@@ -13,9 +13,6 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.util.concurrent.TimeUnit;
-
-import static pl.koziolekweb.zszsk.Params.LOOP;
-import static pl.koziolekweb.zszsk.Params.TIME;
 
 /**
  * Created by koziolek on 29.05.17.
@@ -32,24 +29,24 @@ public class Opt2JmhBenchmark {
 	}
 
 	@Benchmark
-	@Warmup(iterations = LOOP, time = TIME, timeUnit = TimeUnit.MILLISECONDS)
-	@Measurement(iterations = LOOP, time = TIME, timeUnit = TimeUnit.MILLISECONDS)
+	@Warmup(iterations = Params.LOOP, time = Params.TIME, timeUnit = TimeUnit.MILLISECONDS)
+	@Measurement(iterations = Params.LOOP, time = Params.TIME, timeUnit = TimeUnit.MILLISECONDS)
 	public void empty() {
 
 	}
 
 	@Benchmark
-	@Warmup(iterations = LOOP, time = TIME, timeUnit = TimeUnit.MILLISECONDS)
-	@Measurement(iterations = LOOP, time = TIME, timeUnit = TimeUnit.MILLISECONDS)
-	@Fork(LOOP)
+	@Warmup(iterations = Params.LOOP, time = Params.TIME, timeUnit = TimeUnit.MILLISECONDS)
+	@Measurement(iterations = Params.LOOP, time = Params.TIME, timeUnit = TimeUnit.MILLISECONDS)
+	@Fork(Params.LOOP)
 	public void benchmark1(Blackhole bh) {
 		bh.consume(businessMethod1());
 
 	}
 	@Benchmark
-	@Warmup(iterations = LOOP, time = TIME, timeUnit = TimeUnit.MILLISECONDS)
-	@Measurement(iterations = LOOP, time = TIME, timeUnit = TimeUnit.MILLISECONDS)
-	@Fork(LOOP)
+	@Warmup(iterations = Params.LOOP, time = Params.TIME, timeUnit = TimeUnit.MILLISECONDS)
+	@Measurement(iterations = Params.LOOP, time = Params.TIME, timeUnit = TimeUnit.MILLISECONDS)
+	@Fork(Params.LOOP)
 	public void benchmark2(Blackhole bh) {
 		bh.consume(businessMethod2());
 	}

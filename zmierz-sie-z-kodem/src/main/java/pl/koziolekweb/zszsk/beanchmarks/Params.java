@@ -1,4 +1,4 @@
-package pl.koziolekweb.zszsk;
+package pl.koziolekweb.zszsk.beanchmarks;
 
 /**
  * Created by BKuczynski on 2017-05-30.
